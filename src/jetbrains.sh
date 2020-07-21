@@ -44,10 +44,11 @@ getUpstreamVersion() {
   head -1
 }
 
-PACKAGES=(datagrip intellij-idea-ce intellij-idea-ultimate-edition phpstorm pycharm-professional rider rubymine webstorm intellij-idea-ce-eap intellij-idea-ue-eap phpstorm-eap pycharm-community-eap rubymine-eap webstorm-eap)
-PRODUCTS=(DataGrip "IntelliJ IDEA" "IntelliJ IDEA" PhpStorm PyCharm Rider RubyMine WebStorm "IntelliJ IDEA" "IntelliJ IDEA" PhpStorm PyCharm RubyMine WebStorm)
+PACKAGES=(datagrip goland intellij-idea-ce intellij-idea-ultimate-edition phpstorm pycharm-professional rider rubymine webstorm goland-eap intellij-idea-ce-eap intellij-idea-ue-eap phpstorm-eap pycharm-community-eap rubymine-eap webstorm-eap)
+PRODUCTS=(DataGrip GoLand "IntelliJ IDEA" "IntelliJ IDEA" PhpStorm PyCharm Rider RubyMine WebStorm GoLand "IntelliJ IDEA" "IntelliJ IDEA" PhpStorm PyCharm RubyMine WebStorm)
 CHANNELS=(
   DB-RELEASE-licensing-RELEASE
+  GO-RELEASE-licensing-RELEASE
   IC-IU-RELEASE-licensing-RELEASE
   IC-IU-RELEASE-licensing-RELEASE
   PS-RELEASE-licensing-RELEASE
@@ -55,6 +56,7 @@ CHANNELS=(
   RD-RELEASE-licensing-RELEASE
   RM-RELEASE-licensing-RELEASE
   WS-RELEASE-licensing-RELEASE
+  GO-EAP-licensing-EAP
   IC-IU-EAP-licensing-EAP
   IC-IU-EAP-licensing-EAP
   PS-EAP-licensing-EAP
@@ -69,7 +71,7 @@ UPDATES=$(curl --silent https://www.jetbrains.com/updates/updates.xml)
 
 for (( i = 0; i < ${#PACKAGES[@]}; ++i )); do
   PACKAGE_VERSION=$(getPackageVersion "$AUR" "${PACKAGES[$i]}" | removeEpoch)
-  if [[ $i -lt 8 ]];
+  if [[ $i -lt 9 ]];
   then
     VERSION_TYPE="version"
     PACKAGE_VERSION=$(removePackageBuild "$PACKAGE_VERSION")
