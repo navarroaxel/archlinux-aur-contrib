@@ -18,7 +18,7 @@ source ../src/common.sh
 # Returns the product version for the given channel release or nothing otherwise.
 getUpstreamVersion() {
   echo "$1" | \
-  xmllint --xpath "string(//product[@name='$2']/channel[@id='$3']/build/@$4)" - | \
+  xmllint --xpath "string(//product[@name='$2']/channel[1]/build/@$4)" - | \
   head -1
 }
 

@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-# Get the build number from the package verion
+# Get the build number from the package version
 #
 # $1 - Package version
 #
@@ -40,7 +40,7 @@ removePackageBuild() {
 # Returns the product version for the given channel release or nothing otherwise.
 getUpstreamVersion() {
   echo "$1" | \
-  xmllint --xpath "string(//product[@name='$2']/channel[@id='$3']/build/@$4)" - | \
+  xmllint --xpath "string(//product[@name='$2']/channel[$3]/build/@$4)" - | \
   head -1
 }
 
@@ -75,10 +75,11 @@ for (( i = 0; i < ${#PACKAGES[@]}; ++i )); do
   then
     VERSION_TYPE="version"
     PACKAGE_VERSION=$(removePackageBuild "$PACKAGE_VERSION")
+    LATEST_VERSION=$(getUpstreamVersion "$UPDATES" "${PRODUCTS[$i]}" "@id='${CHANNELS[$i]}'" "$VERSION_TYPE")
   else
     VERSION_TYPE="fullNumber"
     PACKAGE_VERSION=$(getPackageBuild "$PACKAGE_VERSION")
+    LATEST_VERSION=$(getUpstreamVersion "$UPDATES" "${PRODUCTS[$i]}" 1 "$VERSION_TYPE")
   fi
-  LATEST_VERSION=$(getUpstreamVersion "$UPDATES" "${PRODUCTS[$i]}" "${CHANNELS[$i]}" "$VERSION_TYPE")
   printUpdate "${PACKAGES[$i]}" "$PACKAGE_VERSION" "$LATEST_VERSION"
 done
